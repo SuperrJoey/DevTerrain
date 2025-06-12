@@ -16,11 +16,8 @@ export const useGitHubData = () => {
         try {
             setLoading(true);
             setError("");
-            console.log("Fetching data for user -> ", username);
             const raw = await fetchGitHubContributions(username);
-            console.log("Fetched data for username - Dev: ", raw);
             const data = parseContributions(raw);
-            console.log("Data : ", data);
             setContributions(data);
         } catch (error) {
             setError("Failed to fetch data, check username or rate limit");

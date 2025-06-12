@@ -1,5 +1,6 @@
 'use client'
 
+import { ContributionDisplay } from "@/components/ContributionDisplay";
 import { useGitHubData } from "../utils/useGithubData";
 import { useState } from "react";
 
@@ -24,7 +25,13 @@ export default function Home() {
 
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
-      {contributions.length > 0 && <pre>{JSON.stringify(contributions.slice(0,5), null, 2)}</pre>}
+      
+      {contributions.length > 0 && (
+        <ContributionDisplay
+          contributions={contributions}
+          username={username}
+        />
+      )}
     </div>
   )
 }
