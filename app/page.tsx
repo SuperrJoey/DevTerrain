@@ -2,15 +2,17 @@
 
 // import { ContributionDisplay } from "@/components/ContributionDisplay";
 import { ContributionGrid } from "@/components/ContributionGrid";
-import { Scene3D } from "@/components/Scene3D";
 import { useGitHubData } from "../utils/useGithubData";
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
+
+
 export default function Home() {
   const { fetchData, loading, contributions, error} = useGitHubData();
   const [username, setUsername] = useState("");
+
 
   return (
     <div>

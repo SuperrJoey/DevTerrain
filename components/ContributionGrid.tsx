@@ -1,13 +1,19 @@
 'use client'
 
 import { useMemo } from "react"
-import { Mesh } from "three"
-import { Zip } from "three/examples/jsm/libs/fflate.module.js";
+import { useState } from "react";
+import { Mesh } from "three";
 
 interface Contribution {
     date: string;
     count: number;
 }
+
+interface hoveredCubeProps {
+    date: string;
+    count: number;
+    position: [number, number, number];
+  }
 
 interface ContributionGridProps {
     contributions: Contribution[];
@@ -15,6 +21,8 @@ interface ContributionGridProps {
 }
 
 export const ContributionGrid = ({ contributions, username }: ContributionGridProps) => {
+
+    const [hoveredCube, setHoveredCube] = useState<hoveredCubeProps | null>(null);
     //Grid logic here
 
     const getColor = (count: number) => {
@@ -52,11 +60,37 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
     return (
         <group>
            {gridLayout.map((cube, index) => (
-            <mesh key={index} position={cube.position}>
+            <mesh 
+                key={index} 
+                position={cube.position}
+                onPointerEnter={(e) => {
+                    e.stopPropagation();
+                    setHoveredCube({
+                        date:cube.date,
+                        count: cube.count,
+                        position: cube.position
+                    });
+                }}
+                onPointerLeave={() => setHoveredCube(null)}
+                >
                 <boxGeometry args={[0.5, cube.count * 0.5, 0.5]} />
-                <meshStandardMaterial color={cube.color}/>
+                <meshStandardMaterial 
+                    color={cube.color}
+                    opacity={hoveredCube?.date === cube.date ? 0.8 : 1}
+                    transparent
+                    />
             </mesh>
            ))}
+        {hoveredCube && (
+            <mesh position={[
+                hoveredCube.position[0], 
+                hoveredCube.position[1] + 1, 
+                hoveredCube.position[2]
+            ]}>
+                <planeGeometry args={[2, 0.5]}/>
+                <meshBasicMaterial color="white" opacity={0.9} transparent/>
+            </mesh>
+        )}
         </group>
     )
 }
