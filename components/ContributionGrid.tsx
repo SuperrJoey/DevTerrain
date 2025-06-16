@@ -3,6 +3,8 @@
 import { useMemo } from "react"
 import { useState } from "react";
 import { Mesh } from "three";
+import { Text } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 
 interface Contribution {
     date: string;
@@ -82,14 +84,27 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
             </mesh>
            ))}
         {hoveredCube && (
-            <mesh position={[
-                hoveredCube.position[0], 
-                hoveredCube.position[1] + 1, 
-                hoveredCube.position[2]
-            ]}>
-                <planeGeometry args={[2, 0.5]}/>
-                <meshBasicMaterial color="white" opacity={0.9} transparent/>
-            </mesh>
+            <Html
+                position={[
+                    hoveredCube.position[0], 
+                    hoveredCube.position[1] + 1, 
+                    hoveredCube.position[2]
+                ]}
+                center
+            >
+                <div style={{
+                    background: 'rgba(0, 0, 0, 0.8)',
+                    color: 'white',
+                    padding: '8px 12px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    whiteSpace: 'nowrap',
+                    pointerEvents: 'none'
+                }}>
+                    <div>{hoveredCube.date}</div>
+                    <div>{hoveredCube.count} contributions</div>
+                </div>
+            </Html>
         )}
         </group>
     )
