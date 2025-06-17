@@ -61,10 +61,14 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
 
     return (
         <group>
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[15, -0.1, 2]}>
+                <planeGeometry args={[35, 10]} />
+            </mesh>
            {gridLayout.map((cube, index) => (
             <mesh 
                 key={index} 
                 position={cube.position}
+                scale={hoveredCube?.date === cube.date ? [1.1, 1.1, 1.1] : [1, 1, 1]}
                 onPointerEnter={(e) => {
                     e.stopPropagation();
                     setHoveredCube({
