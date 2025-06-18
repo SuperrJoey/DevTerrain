@@ -22,11 +22,13 @@ export default function ExplorePage() {
 
                 {/*Input Section */}
                 <div className="container mx-auto px-8 py-12">
+                    {!loading && (
                     <div className="text-center mb-12">
                         <h1 className="text-white mb-4 text-4xl">
                             Explore your GitHub Terrain
                         </h1>
                     </div>
+                    )}
 
                 {/* Loading Animation */}
                 {loading && username && (
