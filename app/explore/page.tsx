@@ -54,11 +54,44 @@ export default function ExplorePage() {
                 </div>
                 {contributions.length > 0 && 
                 (
-                    <div>
-                        <h2>
-                            {username}'s DevTerrain
-                        </h2>
-                        <Scene3D contributions={contributions} username={username}/>
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl font-bold text-white mb-2">
+                                {username}'s DevTerrain
+                            </h2>
+                            <p>
+                                Your GitHub contribution journey visualized in 3D
+                            </p>
+                        </div>
+                        <div className="bg-white/5 backdrop-blue-sm border border-white/10 rounded-xl p-6"> 
+                            <Scene3D contributions={contributions} username={username}/>
+                        </div>
+
+                        {/*Stats Section*/}
+                        <div className="grid grid-cols-3 gap-4 mt-6">
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 text-center">
+                                <div className="text-2xl font-bold text-green-400">
+                                    {contributions.reduce((sum, day) => sum + day.count, 0)}
+                                </div>
+                                <div className="text-sm text-gray-400">
+                                    Total Contributions
+                                </div>
+                            </div>
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 text-center">
+                                <div className="text-2xl font-bold text-blue-400">
+                                    {contributions.filter(day => day.count > 0).length}
+                                </div>
+                                <div className="text-sm text-gray-400">Active Days</div>
+                            </div>
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 text-center">
+                                <div className="text-2xl font-bold text-purple-400">
+                                    {Math.max(...contributions.map(day => day.count))}
+                                </div>
+                                <div className="text-sm text-gray-400">
+                                    Max Daily
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 )}
 
