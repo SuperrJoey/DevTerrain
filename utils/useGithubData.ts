@@ -13,11 +13,20 @@ export const useGitHubData = () => {
     const [error, setError] = useState("");
 
     const fetchData = async (username: string) => {
+        setLoading(true);
+        setError("");
+        setContributions([]);
+        
         try {
-            setLoading(true);
-            setError("");
-            const raw = await fetchGitHubContributions(username);
-            const data = parseContributions(raw);
+            // Add minimum delay to show the loader
+            const [data] = await Promise.all([
+                (async () => {
+                    const raw = await fetchGitHubContributions(username);
+                    return parseContributions(raw);
+                })(),
+                new Promise(resolve => setTimeout(resolve, 5000)) // 2 second minimum delay
+            ]);
+            
             setContributions(data);
         } catch (error) {
             setError("Failed to fetch data, check username or rate limit");
