@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -29,12 +31,12 @@ export default function Home() {
       <div className="relative z-10 min-h-screen flex items-center justify-center px-8">
         <div className={`text-center max-w-5xl transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           
-          {/* Main Title - much smaller and refined */}
+          {/* Main Title  */}
           <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 mb-6 tracking-tight">
             DevTerrain
           </h1>
           
-          {/* Subtitle - smaller and more elegant */}
+          {/* Subtitle  */}
           <div className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed font-normal max-w-3xl mx-auto">
             Transform your{' '}
             <span className="text-green-400 font-medium">GitHub contributions</span>
@@ -43,7 +45,7 @@ export default function Home() {
             . Watch your coding journey unfold as stunning landscapes.
           </div>
           
-          {/* Feature cards - smaller text */}
+          {/* Feature cards  */}
           <div className="grid md:grid-cols-3 gap-4 mb-10 max-w-3xl mx-auto">
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-all duration-300 hover:scale-105">
               <div className="text-2xl mb-2">🏔️</div>
@@ -64,8 +66,10 @@ export default function Home() {
             </div>
           </div>
           
-          {/* CTA Button - smaller and more refined */}
-          <button className="group relative bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 hover:from-blue-600 hover:via-purple-600 hover:to-green-600 text-white font-semibold py-4 px-8 rounded-xl text-base transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20">
+          {/* CTA Button */}
+          <button 
+          onClick={() => router.push('/explore')}
+          className="group relative bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 hover:from-blue-600 hover:via-purple-600 hover:to-green-600 text-white font-semibold py-4 px-8 rounded-xl text-base transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20">
             <span className="relative z-10">Start Exploring</span>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
           </button>
