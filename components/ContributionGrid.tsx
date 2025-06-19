@@ -46,8 +46,7 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
 
     const gridLayout = useMemo(() => {
         const CUBE_SIZE = 0.5; //size of each cube
-        const GAP = 0.1;        //gap between cubes
-        const WEEK_COUNT = 52;  
+        const GAP = 0.1;        //gap between cubes  
         const DAYS_PER_WEEK = 7;
 
         return contributions.map((contribution, index) => {
@@ -135,11 +134,8 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
         </group>
     )
 }
-
 interface Scene3DProps {
     contributions: { date: string; count: number }[];
     username: string;
 }
 
-export const Scene3D = ({ contributions, username }: Scene3DProps) => {
-}
