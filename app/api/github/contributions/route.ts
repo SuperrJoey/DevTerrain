@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ html });
     } catch (error) {
+        console.error('GitHub API error:', error);
         return NextResponse.json(
             { error: 'Failed to fetch Github data' },
             { status: 500 }

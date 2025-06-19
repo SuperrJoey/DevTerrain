@@ -9,14 +9,14 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { ContributionGrid } from '../components/ContributionGrid'
 
-export const Scene3D = ({ contributions, username }: Scene3DProps) => {
+export const Scene3D = ({ contributions }: Scene3DProps) => {
     return (
         <div className="w-full h-[50vh] sm:h-[60vh] md:h-[70vh] border border-white/10 rounded-lg overflow-hidden">
             <Canvas camera={{ position: [15, 15, 15], fov: 60 }}>
                 <OrbitControls enableZoom={true} enablePan={true} enableRotate={true} />
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[10, 10, 5]} intensity={1} />
-                <ContributionGrid contributions={contributions} username={username} />
+                <ContributionGrid contributions={contributions} />
             </Canvas>
         </div>
     )

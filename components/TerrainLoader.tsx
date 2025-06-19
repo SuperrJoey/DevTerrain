@@ -24,7 +24,7 @@ export const TerrainLoader = ({ username }: TerrainLoaderProps) =>{
             {/*Loading text with typewriter effect*/}
             <div className="text-center max-w-md mx-auto">
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 md:mb-3">
-                    Mapping {username}'s DevTerrain
+                    Mapping {username}&apos;s DevTerrain
                 </h3>
                 <p className="text-gray-400 mb-4 md:mb-6 text-sm sm:text-base">
                     Analyzing contribution patterns and building your 3D landscape...

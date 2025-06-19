@@ -26,7 +26,7 @@ export const ContributionDisplay = ({ contributions, username }: ContributionDis
 
     return (
         <div className="mt-6 md:mt-8 p-4 md:p-6 border rounded-lg">
-            <h2 className="text-xl md:text-2xl font-bold mb-4">{username}'s GitHub Contributions</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-4">{username}&apos;s GitHub Contributions</h2>
             
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">

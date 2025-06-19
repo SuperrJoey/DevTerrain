@@ -3,6 +3,7 @@
 import { useMemo, useEffect, useState } from "react"
 import { Html } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
+import { Vector3 } from "three";
 
 
 interface Contribution {
@@ -18,10 +19,9 @@ interface hoveredCubeProps {
 
 interface ContributionGridProps {
     contributions: Contribution[];
-    username: string;
 }
 
-export const ContributionGrid = ({ contributions, username }: ContributionGridProps) => {
+export const ContributionGrid = ({ contributions }: ContributionGridProps) => {
 
     const [animationStarted, setAnimationStarted] = useState(false);
     const [hoveredCube, setHoveredCube] = useState<hoveredCubeProps | null>(null);
@@ -46,7 +46,7 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
 
     const gridLayout = useMemo(() => {
         const CUBE_SIZE = 0.5; //size of each cube
-        const GAP = 0.1;        //gap between cubes  
+        const GAP = 0.1;        //gap between cubes
         const DAYS_PER_WEEK = 7;
 
         return contributions.map((contribution, index) => {
@@ -70,42 +70,15 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
     return (
         <group>
            {gridLayout.map((cube, index) => {
-            const AnimatedMesh = animated.mesh
-            
-            const springs = useSpring({
-                scale: animationStarted ? 
-                    (hoveredCube?.date === cube.date ? [1.1, 1.1, 1.1] : [1, 1, 1]) : 
-                    [1, 0, 1] as [number, number, number],
-                position: cube.position,
-                config: { 
-                    tension: 120, 
-                    friction: 14,
-                    delay: index * 5
-                }
-            })
-
             return (
-                <AnimatedMesh
+                <CubeItem 
                     key={index}
-                    scale={springs.scale as any}
-                    position={springs.position as any}
-                    onPointerEnter={(e) => {
-                        e.stopPropagation();
-                        setHoveredCube({
-                            date: cube.date,
-                            count: cube.count,
-                            position: cube.position
-                        });
-                    }}
-                    onPointerLeave={() => setHoveredCube(null)}
-                >
-                    <boxGeometry args={[0.5, cube.count * 0.5, 0.5]} />
-                    <meshStandardMaterial 
-                        color={cube.color}
-                        opacity={hoveredCube?.date === cube.date ? 0.8 : 1}
-                        transparent
-                    />
-                </AnimatedMesh>
+                    cube={cube}
+                    index={index}
+                    animationStarted={animationStarted}
+                    hoveredCube={hoveredCube}
+                    setHoveredCube={setHoveredCube}
+                />
             )
            })}
         {hoveredCube && (
@@ -134,8 +107,57 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
         </group>
     )
 }
-interface Scene3DProps {
-    contributions: { date: string; count: number }[];
-    username: string;
+
+interface CubeItemProps {
+    cube: {
+        position: [number, number, number];
+        color: string;
+        count: number;
+        date: string;
+    };
+    index: number;
+    animationStarted: boolean;
+    hoveredCube: hoveredCubeProps | null;
+    setHoveredCube: (cube: hoveredCubeProps | null) => void;
+}
+
+const CubeItem = ({ cube, index, animationStarted, hoveredCube, setHoveredCube }: CubeItemProps) => {
+    const springs = useSpring({
+        scale: animationStarted ? 
+            (hoveredCube?.date === cube.date ? [1.1, 1.1, 1.1] : [1, 1, 1]) : 
+            [1, 0, 1] as [number, number, number],
+        position: cube.position,
+        config: { 
+            tension: 120, 
+            friction: 14,
+            delay: index * 5
+        }
+    })
+
+    return (
+        <animated.mesh
+            scale={springs.scale as unknown as Vector3}
+            position={springs.position as unknown as Vector3}
+            onPointerEnter={(e) => {
+                e.stopPropagation();
+                setHoveredCube({
+                    date: cube.date,
+                    count: cube.count,
+                    position: cube.position
+                });
+            }}
+            onPointerLeave={() => setHoveredCube(null)}
+        >
+            <boxGeometry args={[0.5, cube.count * 0.5, 0.5]} />
+            <meshStandardMaterial 
+                color={cube.color}
+                opacity={hoveredCube?.date === cube.date ? 0.8 : 1}
+                transparent
+            />
+        </animated.mesh>
+    )
+}
+
+export const Scene3D = () => {
 }
 

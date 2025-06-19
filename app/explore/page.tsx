@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react"
+import Link from "next/link"
 import { useGitHubData } from "../../utils/useGithubData"
 import { Scene3D } from "../../components/Scene3D"
 import { TerrainLoader } from "../../components/TerrainLoader"
@@ -12,12 +13,12 @@ export default function ExplorePage() {
     return (
         <div className="min-h-screen bg-black">
             <div className="p-4 md:p-6">
-                <a 
+                <Link 
                     href="/"
                     className="text-gray-500 hover:text-white transition-colors"
                     >
                     Home
-                </a>
+                </Link>
             </div>
 
                 {/*Input Section */}
@@ -64,7 +65,7 @@ export default function ExplorePage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-6 md:mb-8">
                             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                                {username}'s DevTerrain
+                                {username}&apos;s DevTerrain
                             </h2>
                             <p className="text-gray-300 text-sm sm:text-base">
                                 Your GitHub contribution journey visualized in 3D
