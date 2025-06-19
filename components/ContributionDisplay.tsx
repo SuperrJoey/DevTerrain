@@ -25,44 +25,46 @@ export const ContributionDisplay = ({ contributions, username }: ContributionDis
     };
 
     return (
-        <div className="mt-8 p-6 border rounded-lg">
-            <h2 className="text-2xl font-bold mb-4">{username}'s GitHub Contributions</h2>
+        <div className="mt-6 md:mt-8 p-4 md:p-6 border rounded-lg">
+            <h2 className="text-xl md:text-2xl font-bold mb-4">{username}'s GitHub Contributions</h2>
             
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">{totalContributions}</div>
-                    <div className="text-sm text-gray-600">Total Contributions</div>
+                    <div className="text-xl md:text-2xl font-bold text-green-600">{totalContributions}</div>
+                    <div className="text-xs md:text-sm text-gray-600">Total Contributions</div>
                 </div>
                 <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">{activeDays}</div>
-                    <div className="text-sm text-gray-600">Active Days</div>
+                    <div className="text-xl md:text-2xl font-bold text-blue-600">{activeDays}</div>
+                    <div className="text-xs md:text-sm text-gray-600">Active Days</div>
                 </div>
                 <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">{maxContributions}</div>
-                    <div className="text-sm text-gray-600">Max Daily</div>
+                    <div className="text-xl md:text-2xl font-bold text-purple-600">{maxContributions}</div>
+                    <div className="text-xs md:text-sm text-gray-600">Max Daily</div>
                 </div>
             </div>
 
-            {/* Contribution Grid (simplified) */}
-            <div className="grid grid-cols-52 gap-1 mb-4">
-                {contributions.map((day, index) => (
-                    <div
-                        key={index}
-                        className={`w-3 h-3 rounded-sm ${getColor(day.count)}`}
-                        title={`${day.date}: ${day.count} contributions`}
-                    />
-                ))}
+            {/* Contribution Grid (simplified) - responsive approach */}
+            <div className="mb-4 overflow-x-auto">
+                <div className="grid grid-cols-52 gap-px min-w-[520px]">
+                    {contributions.map((day, index) => (
+                        <div
+                            key={index}
+                            className={`w-2 h-2 md:w-3 md:h-3 rounded-sm ${getColor(day.count)}`}
+                            title={`${day.date}: ${day.count} contributions`}
+                        />
+                    ))}
+                </div>
             </div>
 
             {/* Legend */}
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-xs md:text-sm">
                 <span>Less</span>
-                <div className="w-3 h-3 bg-gray-100 rounded-sm"></div>
-                <div className="w-3 h-3 bg-green-200 rounded-sm"></div>
-                <div className="w-3 h-3 bg-green-400 rounded-sm"></div>
-                <div className="w-3 h-3 bg-green-600 rounded-sm"></div>
-                <div className="w-3 h-3 bg-green-800 rounded-sm"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-gray-100 rounded-sm"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-green-200 rounded-sm"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-green-400 rounded-sm"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-green-600 rounded-sm"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-green-800 rounded-sm"></div>
                 <span>More</span>
             </div>
         </div>

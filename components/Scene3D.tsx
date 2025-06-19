@@ -11,9 +11,9 @@ import { ContributionGrid } from '../components/ContributionGrid'
 
 export const Scene3D = ({ contributions, username }: Scene3DProps) => {
     return (
-        <div style={{ width: '100%', height: '70vh', border: '1px solid #ccc'}}>
+        <div className="w-full h-[50vh] sm:h-[60vh] md:h-[70vh] border border-white/10 rounded-lg overflow-hidden">
             <Canvas camera={{ position: [15, 15, 15], fov: 60 }}>
-                <OrbitControls />
+                <OrbitControls enableZoom={true} enablePan={true} enableRotate={true} />
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[10, 10, 5]} intensity={1} />
                 <ContributionGrid contributions={contributions} username={username} />

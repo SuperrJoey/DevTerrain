@@ -1,10 +1,9 @@
 'use client'
 
-import { useMemo } from "react"
-import { useState } from "react";
-import { Mesh } from "three";
-import { Text } from "@react-three/drei";
+import { useMemo, useEffect, useState } from "react"
 import { Html } from "@react-three/drei";
+import { useSpring, animated } from "@react-spring/three";
+
 
 interface Contribution {
     date: string;
@@ -24,8 +23,18 @@ interface ContributionGridProps {
 
 export const ContributionGrid = ({ contributions, username }: ContributionGridProps) => {
 
+    const [animationStarted, setAnimationStarted] = useState(false);
     const [hoveredCube, setHoveredCube] = useState<hoveredCubeProps | null>(null);
     //Grid logic here
+
+    useEffect(() => {
+        if (contributions.length > 0) {
+            const timer = setTimeout(() => {
+                setAnimationStarted(true)
+            }, 300) // Small delay before animation starts
+            return () => clearTimeout(timer)
+        }
+    }, [contributions])
 
     const getColor = (count: number) => {
     if (count === 0) return '#f3f4f6';  // gray-100
@@ -61,32 +70,45 @@ export const ContributionGrid = ({ contributions, username }: ContributionGridPr
 
     return (
         <group>
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[15, -0.1, 2]}>
-                <planeGeometry args={[35, 10]} />
-            </mesh>
-           {gridLayout.map((cube, index) => (
-            <mesh 
-                key={index} 
-                position={cube.position}
-                scale={hoveredCube?.date === cube.date ? [1.1, 1.1, 1.1] : [1, 1, 1]}
-                onPointerEnter={(e) => {
-                    e.stopPropagation();
-                    setHoveredCube({
-                        date:cube.date,
-                        count: cube.count,
-                        position: cube.position
-                    });
-                }}
-                onPointerLeave={() => setHoveredCube(null)}
+           {gridLayout.map((cube, index) => {
+            const AnimatedMesh = animated.mesh
+            
+            const springs = useSpring({
+                scale: animationStarted ? 
+                    (hoveredCube?.date === cube.date ? [1.1, 1.1, 1.1] : [1, 1, 1]) : 
+                    [1, 0, 1] as [number, number, number],
+                position: cube.position,
+                config: { 
+                    tension: 120, 
+                    friction: 14,
+                    delay: index * 5
+                }
+            })
+
+            return (
+                <AnimatedMesh
+                    key={index}
+                    scale={springs.scale as any}
+                    position={springs.position as any}
+                    onPointerEnter={(e) => {
+                        e.stopPropagation();
+                        setHoveredCube({
+                            date: cube.date,
+                            count: cube.count,
+                            position: cube.position
+                        });
+                    }}
+                    onPointerLeave={() => setHoveredCube(null)}
                 >
-                <boxGeometry args={[0.5, cube.count * 0.5, 0.5]} />
-                <meshStandardMaterial 
-                    color={cube.color}
-                    opacity={hoveredCube?.date === cube.date ? 0.8 : 1}
-                    transparent
+                    <boxGeometry args={[0.5, cube.count * 0.5, 0.5]} />
+                    <meshStandardMaterial 
+                        color={cube.color}
+                        opacity={hoveredCube?.date === cube.date ? 0.8 : 1}
+                        transparent
                     />
-            </mesh>
-           ))}
+                </AnimatedMesh>
+            )
+           })}
         {hoveredCube && (
             <Html
                 position={[
